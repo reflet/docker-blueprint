@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  blueprint:
+    image: reflet/docker-blueprint
+    build: .   
+    container_name: 'blueprint'
+    volumes:
+      - ./docs:/blueprint/docs
+      - ./public:/blueprint/public
+
+  nginx:
+    image: nginx
+    container_name: 'nginx'
+    ports:
+      - 8000:80
+    volumes_from:
+      - blueprint
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
